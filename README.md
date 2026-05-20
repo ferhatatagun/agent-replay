@@ -1,36 +1,118 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# agent-replay
 
-## Getting Started
+**Watch a Claude agent's tool-calling loop.**
 
-First, run the development server:
+Paste a Claude agent trace and replay it step by step — every thought, tool
+call, tool result, and decision — on a cinematic timeline you can scrub,
+step through, and play back.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+No API key. No backend. Everything runs in your browser.
+
+![agent-replay](docs/preview.png)
+
+---
+
+## Why
+
+When a model uses tools, a single "answer" is really a loop: the agent thinks,
+calls a tool, reads the result, decides what to do next, and repeats until it
+can answer. That loop is where agents get interesting — and where they go
+wrong — but it's normally buried in a wall of JSON.
+
+agent-replay turns that JSON into something you can actually *watch*: a timeline
+where each thought, call, and result is its own step, colour-coded and revealed
+in order. Great for debugging an agent, explaining one, or just seeing how the
+tool loop actually unfolds.
+
+## What it does
+
+- **Paste a trace** — drop in the `messages` array from any Claude tool-use
+  conversation (or a whole request body).
+- **Cinematic replay** — press play and the loop reveals itself step by step;
+  scrub the timeline, step frame-by-frame, or change speed.
+- **Every step, typed** — user turns, thinking blocks, assistant text, tool
+  calls (with formatted input), and tool results are each their own card.
+- **Failure-aware** — tool results flagged `is_error` are rendered in red, so
+  you can see exactly where an agent had to recover.
+- **Trace stats** — message count, tool-call count, the set of tools used, and
+  how many calls errored.
+- **Keyboard transport** — space to play/pause, arrow keys to step.
+- **Zero setup** — no key, no account, no server. Loads with a sample trace.
+
+## The sample trace
+
+agent-replay opens on a built-in trace: an agent deciding whether the user
+should go for a run. It checks the weather, hits an air-quality tool that
+**times out**, recovers gracefully, checks the calendar, and gives a final
+answer — a realistic loop with a thinking block and a tool failure.
+
+## How it works
+
+```
+src/
+  app/
+    page.tsx          playback state, transport, keyboard shortcuts
+    globals.css       design tokens, dark theme
+  components/
+    TraceInput.tsx    JSON editor + live validation + trace stats
+    ReplayStage.tsx   the timeline + auto-follow scrolling
+    StepCard.tsx      one step — colour, icon, body per kind
+    Controls.tsx      play / pause / step / scrub / speed
+  lib/
+    parse.ts          JSON → validated, flattened list of steps
+    sample.ts         the built-in demo trace
+    types.ts          trace + step types
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+`parse.ts` is the core: it accepts the Anthropic Messages API shape, walks each
+message's content blocks, resolves every `tool_result` back to the tool it came
+from, and flattens the whole conversation into a single ordered list of steps
+the timeline can render. Invalid JSON and malformed traces fail gracefully with
+a readable message.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Trace format
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Paste the `messages` array from a Claude conversation that uses tools — either
+the bare array or a full request body `{ "messages": [...] }`:
 
-## Learn More
+```json
+[
+  { "role": "user", "content": "What's the weather in Istanbul?" },
+  { "role": "assistant", "content": [
+      { "type": "text", "text": "Let me check." },
+      { "type": "tool_use", "id": "toolu_01",
+        "name": "get_weather", "input": { "city": "Istanbul" } }
+  ]},
+  { "role": "user", "content": [
+      { "type": "tool_result", "tool_use_id": "toolu_01",
+        "content": "22°C, clear" }
+  ]},
+  { "role": "assistant", "content": [
+      { "type": "text", "text": "It's 22°C and clear in Istanbul." }
+  ]}
+]
+```
 
-To learn more about Next.js, take a look at the following resources:
+`text`, `thinking`, `tool_use`, and `tool_result` blocks are all understood.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Run locally
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+npm install
+npm run dev
+# open http://localhost:3000
+```
 
-## Deploy on Vercel
+## Deploy
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Static, no environment variables. One-click on Vercel:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/ferhatatagun/agent-replay)
+
+## Tech
+
+Next.js 16 · React 19 · TypeScript · Tailwind CSS v4 · Framer Motion
+
+## License
+
+MIT — see [LICENSE](LICENSE).
