@@ -115,6 +115,14 @@ Static, no environment variables. One-click on Vercel:
 
 Next.js 16 · React 19 · TypeScript · Tailwind CSS v4 · Framer Motion
 
+## A small suite
+
+Three tools for seeing what Claude is doing, built together with a shared design language:
+
+- [claudoscope](https://github.com/ferhatatagun/claudoscope) — x-ray your Claude API calls
+- **agent-replay** — replay an agent's tool-calling loop *(this one)*
+- [prompt-lab](https://github.com/ferhatatagun/prompt-lab) — A/B test prompts side by side
+
 ## License
 
 MIT — see [LICENSE](LICENSE).
