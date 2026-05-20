@@ -25,6 +25,15 @@ export default function Home() {
     setCursor((c) => Math.min(c, total));
   }, [total]);
 
+  // Deep link: ?step=N opens with exactly N steps revealed.
+  useEffect(() => {
+    const raw = new URLSearchParams(window.location.search).get("step");
+    if (raw === null) return;
+    const n = Number.parseInt(raw, 10);
+    if (!Number.isNaN(n)) setCursor(Math.max(0, Math.min(total, n)));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   // Playback ticker: schedule the next reveal whenever we advance.
   useEffect(() => {
     if (!playing) return;

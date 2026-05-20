@@ -10,7 +10,7 @@ No API key. No backend. Everything runs in your browser.
 
 **[Live → agent-replay.vercel.app](https://agent-replay.vercel.app)**
 
-![agent-replay](docs/preview.png)
+![agent-replay](docs/replay.gif)
 
 ---
 
