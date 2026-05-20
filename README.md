@@ -8,7 +8,7 @@ step through, and play back.
 
 No API key. No backend. Everything runs in your browser.
 
-**[Live → agent-replay.vercel.app](https://agent-replay.vercel.app)**
+**[Live → agentreplay.vercel.app](https://agentreplay.vercel.app)**
 
 ![agent-replay](docs/replay.gif)
 
