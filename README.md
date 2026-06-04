@@ -111,6 +111,17 @@ Static, no environment variables. One-click on Vercel:
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/ferhatatagun/agent-replay)
 
+## Read the story
+
+The case for treating agent traces as timelines instead of JSON
+documents — and the bugs that become visually obvious once you do:
+
+- [**How I debug Claude agents by replaying their trace**](https://ferhatatagun.com/blog/debug-claude-agents-by-replaying-traces)
+  — why JSON is the wrong primitive for post-hoc agent debugging,
+  the three failure modes that become trivial to spot once the
+  trace is laid out as a step-by-step timeline, and why replaying
+  beats re-running.
+
 ## Tech
 
 Next.js 16 · React 19 · TypeScript · Tailwind CSS v4 · Framer Motion
