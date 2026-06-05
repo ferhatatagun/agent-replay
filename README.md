@@ -1,5 +1,11 @@
 # agent-replay
 
+[![License: MIT](https://img.shields.io/badge/license-MIT-8b5cf6?style=flat-square)](LICENSE)
+[![GitHub stars](https://img.shields.io/github/stars/ferhatatagun/agent-replay?style=flat-square&color=8b5cf6&logo=github)](https://github.com/ferhatatagun/agent-replay/stargazers)
+[![TypeScript](https://img.shields.io/badge/TypeScript-3178c6?style=flat-square&logo=typescript&logoColor=white)](#)
+[![No backend · No key](https://img.shields.io/badge/no_backend-no_key-f472b6?style=flat-square)](#)
+[![Live demo](https://img.shields.io/badge/live-agentreplay.vercel.app-8b5cf6?style=flat-square)](https://agentreplay.vercel.app)
+
 **Watch a Claude agent's tool-calling loop.**
 
 Paste a Claude agent trace and replay it step by step — every thought, tool
