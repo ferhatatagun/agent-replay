@@ -103,6 +103,10 @@ the bare array or a full request body `{ "messages": [...] }`:
 
 `text`, `thinking`, `tool_use`, and `tool_result` blocks are all understood.
 
+## Use it as a skill
+
+The same idea ships as an agent skill, `skills/agent-trace-debugger/`. Give the agent a Claude tool-use conversation and it flattens it into a step-by-step timeline and flags errors, orphaned tool calls, loops and unrecovered failures. Copy that folder to `~/.claude/skills/` (Claude Code) or find it on [Agensi](https://www.agensi.io).
+
 ## Run locally
 
 ```bash
